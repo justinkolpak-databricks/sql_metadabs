@@ -1,0 +1,12 @@
+resources:
+  jobs:
+    IngestJob:
+      name: IngestJob
+      tasks:
+        - task_key: test
+          sql_task:
+            file:
+              path: ../src/sql_metadabs/test.sql
+            warehouse_id: 475b94ddc7cd5211
+      queue:
+        enabled: true

@@ -24,7 +24,7 @@ artifacts:
 
 sync:
   exclude:
-    - "src"
+    # - "src"
     - "resources"
 
 variables:

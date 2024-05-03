@@ -9,3 +9,4 @@ FROM STREAM read_files(
     fileNamePattern => {{ file_name_pattern }},
     schema => {{ schema }}
 );
+

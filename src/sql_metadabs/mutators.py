@@ -23,7 +23,7 @@ def default_job_cluster_mutator(job: Job) -> Job:
             "node_type_id": Bundle.variables.default_node_type_id,
             "autoscale": {
                 "min_workers": 1,
-                "max_workers": 2,
+                "max_workers": 3,
             },
         },
     )

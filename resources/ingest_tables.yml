@@ -3,9 +3,9 @@ resources:
     IngestJob:
       name: IngestJob
       tasks:
-        - task_key: test
-          sql_task:
-            parameters:
+        - task_key: notebook
+          notebook_task:
+            base_parameters:
               catalog_name: justin_kolpak
               schema_name: tpch
               table_name: hr
@@ -16,8 +16,8 @@ resources:
               line_sep: ","
               file_name_pattern: HR.csv
               schema: employeeid BIGINT COMMENT 'ID of employee', managerid BIGINT COMMENT 'ID of employee’s manager', employeefirstname STRING COMMENT 'First name', employeelastname STRING COMMENT 'Last name', employeemi STRING COMMENT 'Middle initial', employeejobcode STRING COMMENT 'Numeric job code', employeebranch STRING COMMENT 'Facility in which employee has office', employeeoffice STRING COMMENT 'Office number or description', employeephone STRING COMMENT 'Employee phone number'
-            file:
-              path: ../src/sql_metadabs/st_ingest.sql
+            notebook_path: ../src/sql_metadabs/sql_notebook.sql
             warehouse_id: 475b94ddc7cd5211
+            
       queue:
         enabled: true

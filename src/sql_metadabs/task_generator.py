@@ -1,8 +1,5 @@
 from databricks.bundles.jobs import Job, notebook_task, sql_notebook_task, task
 
-
-
-#@notebook_task(notebook_path="/Users/justin.kolpak/sql_metadabs/sql_metadabs/src/sql_metadabs/sql_notebook.sql")# , warehouse_id='475b94ddc7cd5211')
 @sql_notebook_task(notebook_path="/src/sql_metadabs/sql_notebook.sql" , warehouse_id='475b94ddc7cd5211')
 def ingestion_task(catalog_name: str, 
                 schema_name: str,
@@ -17,10 +14,7 @@ def ingestion_task(catalog_name: str,
                 ):
   pass
 
-# @task
-# def add_two_ints(first: int, second: int) -> int:
-#   return first + second
-
+# Dependencies need to be referenced using the Task object, and representing this as a dictionary makes it easy to retrieve Tasks by name
 def create_task_dict(table_names):
   task_dict = {}
   for table_name in table_names:
@@ -34,21 +28,26 @@ def create_task_dict(table_names):
                     line_sep=",",
                     file_name_pattern="HR.csv",
                     schema="employeeid BIGINT COMMENT 'ID of employee', managerid BIGINT COMMENT 'ID of employee’s manager', employeefirstname STRING COMMENT 'First name', employeelastname STRING COMMENT 'Last name', employeemi STRING COMMENT 'Middle initial', employeejobcode STRING COMMENT 'Numeric job code', employeebranch STRING COMMENT 'Facility in which employee has office', employeeoffice STRING COMMENT 'Office number or description', employeephone STRING COMMENT 'Employee phone number'"
-                  ).with_task_key(table_name)#.add_depends_on(depends_on_task)
+                  ).with_task_key(table_name)
     
     task_dict[table_name] = task
-    # task_list = list(task_dict.values())
+
   return task_dict
 
 
-table_names = ['hr', 'hr2']
+table_names = ['hr', 'hr2', 'hr3']
 task_dict = create_task_dict(table_names) 
 
 for table_name in task_dict:
-  if table_name == 'hr':
-    depends_on_task_name = 'hr2'
-    depends_on_task = task_dict[depends_on_task_name]
-    task_dict[table_name] = task_dict[table_name].add_depends_on(depends_on_task)
+  if table_name == 'hr': # to be automated, just for testing purposes
+    depends_on_task_names = ['hr2','hr3']
+  else:
+    depends_on_task_names = []
+
+  depends_on_tasks = [v for k, v in task_dict.items() if k in depends_on_task_names]
+    
+  for task in depends_on_tasks:
+    task_dict[table_name] = task_dict[table_name].add_depends_on(task)
 
 task_list = list(task_dict.values())
 

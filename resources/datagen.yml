@@ -1,0 +1,28 @@
+resources:
+  jobs:
+    sql_metadabs_datagen:
+      name: sql_metadabs_datagen
+      job_clusters:
+        - job_cluster_key: default_cluster
+          new_cluster:
+            spark_conf:
+              "spark.master": "local[*, 4]"
+              "spark.databricks.cluster.profile": "singleNode"
+            spark_env_vars:
+              PYSPARK_PYTHON: /databricks/python3/bin/python3
+            driver_node_type_id: m6gd.4xlarge
+            spark_version: 14.3.x-scala2.12
+            enable_elastic_disk: true
+            data_security_mode: SINGLE_USER
+            runtime_engine: PHOTON
+            custom_tags:
+              "ResourceClass": "SingleNode"
+            node_type_id: m6gd.4xlarge
+      tasks:
+        - task_key: create_src_data
+          notebook_task:
+            base_parameters:
+              metadata_file_path: /Workspace/${workspace.file_path}/task_metadata.json
+            notebook_path: ../notebooks/create_src_data.ipynb
+          job_cluster_key: default_cluster
+      max_concurrent_runs: 1

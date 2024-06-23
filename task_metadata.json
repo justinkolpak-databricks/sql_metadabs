@@ -1,0 +1,105 @@
+[
+    {
+        "src_catalog": "main",
+        "src_schema": "sql_metadabs",
+        "src_table": "src_table_01",
+        "tgt_catalog": "main",
+        "tgt_schema": "sql_metadabs",
+        "tgt_table": "tgt_table_01",
+        "depends_on": null,
+        "expectations": {
+            "valid_event_date": "event_date <> '2020-01-01'"
+        },
+        "batch": "bronze_01"
+    },
+    {
+        "src_catalog": "main",
+        "src_schema": "sql_metadabs",
+        "src_table": "src_table_02",
+        "tgt_catalog": "main",
+        "tgt_schema": "sql_metadabs",
+        "tgt_table": "tgt_table_02",
+        "depends_on": null,
+        "expectations": {
+            "valid_event_date": "event_date <> '2020-01-01'"
+        },
+        "batch": "bronze_01"
+    },
+    {
+        "src_catalog": "main",
+        "src_schema": "sql_metadabs",
+        "src_table": "src_table_03",
+        "tgt_catalog": "main",
+        "tgt_schema": "sql_metadabs",
+        "tgt_table": "tgt_table_03",
+        "depends_on": null,
+        "expectations": {
+            "valid_event_date": "event_date <> '2020-01-01'"
+        },
+        "batch": "bronze_01"
+    },
+    {
+        "src_catalog": "main",
+        "src_schema": "sql_metadabs",
+        "src_table": "src_table_04",
+        "tgt_catalog": "main",
+        "tgt_schema": "sql_metadabs",
+        "tgt_table": "tgt_table_04",
+        "depends_on": null,
+        "expectations": {
+            "valid_event_date": "event_date <> '2020-01-01'"
+        },
+        "batch": "bronze_01"
+    },    {
+        "src_catalog": "main",
+        "src_schema": "sql_metadabs",
+        "src_table": "src_table_05",
+        "tgt_catalog": "main",
+        "tgt_schema": "sql_metadabs",
+        "tgt_table": "tgt_table_05",
+        "depends_on": null,
+        "expectations": {
+            "valid_event_date": "event_date <> '2020-01-01'"
+        },
+        "batch": "bronze_02"
+    },
+    {
+        "src_catalog": "main",
+        "src_schema": "sql_metadabs",
+        "src_table": "src_table_06",
+        "tgt_catalog": "main",
+        "tgt_schema": "sql_metadabs",
+        "tgt_table": "tgt_table_06",
+        "depends_on": null,
+        "expectations": {
+            "valid_event_date": "event_date <> '2020-01-01'"
+        },
+        "batch": "bronze_02"
+    },
+    {
+        "src_catalog": "main",
+        "src_schema": "sql_metadabs",
+        "src_table": "src_table_07",
+        "tgt_catalog": "main",
+        "tgt_schema": "sql_metadabs",
+        "tgt_table": "tgt_table_07",
+        "depends_on": null,
+        "expectations": {
+            "valid_event_date": "event_date <> '2020-01-01'"
+        },
+        "batch": "bronze_02"
+    },
+    {
+        "src_catalog": "main",
+        "src_schema": "sql_metadabs",
+        "src_table": "src_table_08",
+        "tgt_catalog": "main",
+        "tgt_schema": "sql_metadabs",
+        "tgt_table": "tgt_table_08",
+        "depends_on": null,
+        "expectations": {
+            "valid_event_date": "event_date <> '2020-01-01'"
+        },
+        "batch": "bronze_02"
+    }
+]

@@ -1,12 +1,16 @@
 [
     {
         "task_key": "main_sql_metadabs_bronze_table_01",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "raw_table_01",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "bronze_table_01",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "raw_table_01",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_01"
+        },
         "depends_on": null,
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"
@@ -15,12 +19,16 @@
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_02",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "raw_table_02",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "bronze_table_02",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "raw_table_02",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_02"
+        },
         "depends_on": null,
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"
@@ -29,12 +37,16 @@
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_03",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "raw_table_03",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "bronze_table_03",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "raw_table_03",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_03"
+        },
         "depends_on": null,
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"
@@ -43,12 +55,16 @@
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_04",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "raw_table_04",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "bronze_table_04",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "raw_table_04",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_04"
+        },
         "depends_on": null,
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"
@@ -57,12 +73,16 @@
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_05",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "raw_table_05",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "bronze_table_05",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "raw_table_05",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_05"
+        },
         "depends_on": null,
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"
@@ -71,12 +91,16 @@
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_06",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "raw_table_06",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "bronze_table_06",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "raw_table_06",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_06"
+        },
         "depends_on": null,
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"
@@ -85,12 +109,16 @@
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_07",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "raw_table_07",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "bronze_table_07",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "raw_table_07",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_07"
+        },
         "depends_on": null,
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"
@@ -99,12 +127,16 @@
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_08",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "raw_table_08",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "bronze_table_08",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "raw_table_08",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_08"
+        },
         "depends_on": null,
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"
@@ -113,14 +145,19 @@
     },
     {
         "task_key": "main_sql_metadabs_silver_table_01",
-        "src_catalog": "main",
-        "src_schema": "sql_metadabs",
-        "src_table": "bronze_table_01",
-        "tgt_catalog": "main",
-        "tgt_schema": "sql_metadabs",
-        "tgt_table": "silver_table_01",
+        "notebook_path": "notebooks/ctas.sql",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "bronze_table_01",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "silver_table_01"
+        },
         "depends_on": [
-            "main_sql_metadabs_bronze_table_01"
+            "main_sql_metadabs_bronze_table_01",
+            "main_sql_metadabs_bronze_table_02"
         ],
         "expectations": {
             "valid_event_date": "event_date <> '2020-01-01'"

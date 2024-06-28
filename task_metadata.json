@@ -1,151 +1,67 @@
 [
     {
         "task_key": "main_sql_metadabs_bronze_table_01",
-        "notebook_path": "notebooks/ctas.sql",
-        "notebook_sql_type": "ctas",
+        "task_type": "st_json",
         "task_params": {
-            "src_catalog": "main",
-            "src_schema": "sql_metadabs",
-            "src_table": "raw_table_01",
+            "table_comment": "Bronze table ingested from json",
+            "table_properties": "'table_quality' = 'bronze'",
             "tgt_catalog": "main",
             "tgt_schema": "sql_metadabs",
-            "tgt_table": "bronze_table_01"
+            "tgt_table": "bronze_table_01",
+            "select_list": "*, current_timestamp() as _etl_timestamp",
+            "src_path": "/Volumes/main/sql_metadabs/raw_data/table_01"
         },
         "depends_on": null,
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
-        "batch": "bronze_01"
+        "batch": "st_json"
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_02",
-        "notebook_path": "notebooks/ctas.sql",
-        "notebook_sql_type": "ctas",
+        "task_type": "st_json",
         "task_params": {
-            "src_catalog": "main",
-            "src_schema": "sql_metadabs",
-            "src_table": "raw_table_02",
+            "table_comment": "Bronze table ingested from json",
+            "table_properties": "'table_quality' = 'bronze'",
             "tgt_catalog": "main",
             "tgt_schema": "sql_metadabs",
-            "tgt_table": "bronze_table_02"
+            "tgt_table": "bronze_table_02",
+            "select_list": "*, current_timestamp() as _etl_timestamp",
+            "src_path": "/Volumes/main/sql_metadabs/raw_data/table_02"
         },
         "depends_on": null,
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
-        "batch": "bronze_01"
+        "batch": "st_json"
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_03",
-        "notebook_path": "notebooks/ctas.sql",
-        "notebook_sql_type": "ctas",
+        "task_type": "st_parquet",
         "task_params": {
-            "src_catalog": "main",
-            "src_schema": "sql_metadabs",
-            "src_table": "raw_table_03",
+            "table_comment": "Bronze table ingested from parquet",
+            "table_properties": "'table_quality' = 'bronze'",
             "tgt_catalog": "main",
             "tgt_schema": "sql_metadabs",
-            "tgt_table": "bronze_table_03"
+            "tgt_table": "bronze_table_03",
+            "select_list": "*, current_timestamp() as _etl_timestamp",
+            "src_path": "/Volumes/main/sql_metadabs/raw_data/table_03"
         },
         "depends_on": null,
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
-        "batch": "bronze_01"
+        "batch": "st_parquet"
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_04",
-        "notebook_path": "notebooks/ctas.sql",
-        "notebook_sql_type": "ctas",
+        "task_type": "st_parquet",
         "task_params": {
-            "src_catalog": "main",
-            "src_schema": "sql_metadabs",
-            "src_table": "raw_table_04",
+            "table_comment": "Bronze table ingested from parquet",
+            "table_properties": "'table_quality' = 'bronze'",
             "tgt_catalog": "main",
             "tgt_schema": "sql_metadabs",
-            "tgt_table": "bronze_table_04"
+            "tgt_table": "bronze_table_04",
+            "select_list": "*, current_timestamp() as _etl_timestamp",
+            "src_path": "/Volumes/main/sql_metadabs/raw_data/table_04"
         },
         "depends_on": null,
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
-        "batch": "bronze_01"
-    },
-    {
-        "task_key": "main_sql_metadabs_bronze_table_05",
-        "notebook_path": "notebooks/ctas.sql",
-        "notebook_sql_type": "ctas",
-        "task_params": {
-            "src_catalog": "main",
-            "src_schema": "sql_metadabs",
-            "src_table": "raw_table_05",
-            "tgt_catalog": "main",
-            "tgt_schema": "sql_metadabs",
-            "tgt_table": "bronze_table_05"
-        },
-        "depends_on": null,
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
-        "batch": "bronze_02"
-    },
-    {
-        "task_key": "main_sql_metadabs_bronze_table_06",
-        "notebook_path": "notebooks/ctas.sql",
-        "notebook_sql_type": "ctas",
-        "task_params": {
-            "src_catalog": "main",
-            "src_schema": "sql_metadabs",
-            "src_table": "raw_table_06",
-            "tgt_catalog": "main",
-            "tgt_schema": "sql_metadabs",
-            "tgt_table": "bronze_table_06"
-        },
-        "depends_on": null,
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
-        "batch": "bronze_02"
-    },
-    {
-        "task_key": "main_sql_metadabs_bronze_table_07",
-        "notebook_path": "notebooks/ctas.sql",
-        "notebook_sql_type": "ctas",
-        "task_params": {
-            "src_catalog": "main",
-            "src_schema": "sql_metadabs",
-            "src_table": "raw_table_07",
-            "tgt_catalog": "main",
-            "tgt_schema": "sql_metadabs",
-            "tgt_table": "bronze_table_07"
-        },
-        "depends_on": null,
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
-        "batch": "bronze_02"
-    },
-    {
-        "task_key": "main_sql_metadabs_bronze_table_08",
-        "notebook_path": "notebooks/ctas.sql",
-        "notebook_sql_type": "ctas",
-        "task_params": {
-            "src_catalog": "main",
-            "src_schema": "sql_metadabs",
-            "src_table": "raw_table_08",
-            "tgt_catalog": "main",
-            "tgt_schema": "sql_metadabs",
-            "tgt_table": "bronze_table_08"
-        },
-        "depends_on": null,
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
-        "batch": "bronze_02"
+        "batch": "st_parquet"
     },
     {
         "task_key": "main_sql_metadabs_silver_table_01",
-        "notebook_path": "notebooks/ctas.sql",
+        "task_type": "ctas",
         "notebook_sql_type": "ctas",
         "task_params": {
             "src_catalog": "main",
@@ -159,9 +75,6 @@
             "main_sql_metadabs_bronze_table_01",
             "main_sql_metadabs_bronze_table_02"
         ],
-        "expectations": {
-            "valid_event_date": "event_date <> '2020-01-01'"
-        },
         "batch": "silver_01"
     }
 ]

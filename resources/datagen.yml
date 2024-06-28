@@ -23,6 +23,7 @@ resources:
           notebook_task:
             base_parameters:
               metadata_file_path: /Workspace/${workspace.file_path}/task_metadata.json
+              src_type: parquet
             notebook_path: ../notebooks/create_src_data.ipynb
           job_cluster_key: default_cluster
       max_concurrent_runs: 1

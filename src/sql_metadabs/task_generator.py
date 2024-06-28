@@ -6,15 +6,27 @@ with open("task_metadata.json") as f:
     task_list = json.load(f)
 
 
-# Todo - convert to function so that notebook_path and warehouse_id can be passed in as arguments
-@sql_notebook_task(notebook_path="notebooks/ctas.sql", warehouse_id="475b94ddc7cd5211")
-def ingestion_task(
-    src_catalog: str,
-    src_schema: str,
-    src_table: str,
+@sql_notebook_task(notebook_path="notebooks/st_json.sql", warehouse_id="475b94ddc7cd5211")
+def st_json(
     tgt_catalog: str,
     tgt_schema: str,
     tgt_table: str,
+    table_comment: str,
+    table_properties: str,
+    select_list: str,
+    src_path: str
+):
+    pass
+
+@sql_notebook_task(notebook_path="notebooks/st_parquet.sql", warehouse_id="475b94ddc7cd5211")
+def st_parquet(
+    tgt_catalog: str,
+    tgt_schema: str,
+    tgt_table: str,
+    table_comment: str,
+    table_properties: str,
+    select_list: str,
+    src_path: str
 ):
     pass
 
@@ -29,8 +41,10 @@ def create_tasks(task_list):
         list: List of task metadata and objects
     """
     for t in task_list:
-        if t["notebook_sql_type"] == "ctas":
-            t["task"] = ingestion_task(**t["task_params"]).with_task_key(t["task_key"])
+        if t["task_type"] == "st_parquet":
+            t["task"] = st_parquet(**t["task_params"]).with_task_key(t["task_key"])
+        elif t["task_type"] == "st_json":
+            t["task"] = st_json(**t["task_params"]).with_task_key(t["task_key"])
 
     return task_list
 
@@ -56,7 +70,7 @@ def add_deps(task_list):
     return task_list
 
 
-task_list_filtered = [t for t in task_list if t["batch"] in ("bronze_01", "silver_01")]
+task_list_filtered = [t for t in task_list if t["batch"] in ('st_parquet', 'st_json')]
 task_list_w_obj = create_tasks(task_list_filtered)
 task_list_w_deps = add_deps(task_list_w_obj)
 task_obj_list = [t["task"] for t in task_list_w_deps]

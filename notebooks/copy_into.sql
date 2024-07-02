@@ -13,7 +13,9 @@ SELECT current_catalog(), current_database()
 DECLARE OR REPLACE VARIABLE full_tgt_table_name STRING;
 SET VAR full_tgt_table_name = :tgt_catalog || '.' || :tgt_schema || '.' || :tgt_table;
 
-EXECUTE IMMEDIATE 'CREATE TABLE IF NOT EXISTS IDENTIFIER(full_tgt_table_name)'
+EXECUTE IMMEDIATE "CREATE TABLE IF NOT EXISTS IDENTIFIER(full_tgt_table_name)
+TBLPROPERTIES('delta.enableChangeDataFeed'='true')
+"
 
 -- COMMAND ----------
 

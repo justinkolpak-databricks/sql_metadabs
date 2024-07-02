@@ -25,7 +25,7 @@ artifacts:
 variables:
   warehouse_id:
     description: Warehouse ID for SQL tasks
-    default: d1184b8c2a8a87eb
+    default: 475b94ddc7cd5211
   pause_status:
     description: pause_status for CronSchedule
     default: PAUSED

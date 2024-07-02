@@ -12,7 +12,8 @@
             "src_path": "/Volumes/main/sql_metadabs/raw_data/table_01"
         },
         "depends_on": null,
-        "batch": "st_json"
+        "batch": "st_json",
+        "warehouse_id": "5ab5dda58c1ea16b"
     },
     {
         "task_key": "main_sql_metadabs_bronze_table_02",
@@ -75,6 +76,6 @@
             "main_sql_metadabs_bronze_table_01",
             "main_sql_metadabs_bronze_table_02"
         ],
-        "batch": "silver_01"
+        "batch": "ctas"
     }
 ]

@@ -1,34 +1,64 @@
 from databricks.bundles.jobs import Job, notebook_task, sql_notebook_task, task
+from databricks.bundles.variables import Bundle
 import json
+
 
 # Open json metadata and deserialize to dict
 with open("task_metadata.json") as f:
     task_list = json.load(f)
 
 
-@sql_notebook_task(notebook_path="notebooks/st_json.sql", warehouse_id="475b94ddc7cd5211")
-def st_json(
-    tgt_catalog: str,
-    tgt_schema: str,
-    tgt_table: str,
-    table_comment: str,
-    table_properties: str,
-    select_list: str,
-    src_path: str
-):
-    pass
+def generate_task_func(task_type, warehouse_id):
+    """Higher order function that creates function with notebook and warehouse decorators. Handles task_type to notebook mapping. 
 
-@sql_notebook_task(notebook_path="notebooks/st_parquet.sql", warehouse_id="475b94ddc7cd5211")
-def st_parquet(
-    tgt_catalog: str,
-    tgt_schema: str,
-    tgt_table: str,
-    table_comment: str,
-    table_properties: str,
-    select_list: str,
-    src_path: str
-):
-    pass
+    Args:
+        notebook_path (str): Task Type (e.g. st_json, st_parquet, ctas)
+        warehouse_id (str): DBSQL Warehouse ID
+
+    Returns:
+        task_func (function): Function representing the sql_notebook_task
+    """
+    if task_type == 'st_json':
+        @sql_notebook_task(notebook_path='notebooks/st_json.sql', warehouse_id=warehouse_id)
+        def task_func(
+            tgt_catalog: str,
+            tgt_schema: str,
+            tgt_table: str,
+            table_comment: str,
+            table_properties: str,
+            select_list: str,
+            src_path: str
+        ):
+            pass
+    
+    elif task_type == 'st_parquet':
+        @sql_notebook_task(notebook_path='notebooks/st_parquet.sql', warehouse_id=warehouse_id)
+        def task_func(
+            tgt_catalog: str,
+            tgt_schema: str,
+            tgt_table: str,
+            table_comment: str,
+            table_properties: str,
+            select_list: str,
+            src_path: str
+        ):
+            pass
+    
+    elif task_type == 'ctas':
+        @sql_notebook_task(notebook_path='notebooks/ctas.sql', warehouse_id=warehouse_id)
+        def task_func(
+            src_catalog: str,
+            src_schema: str,
+            src_table: str,
+            tgt_catalog: str,
+            tgt_schema: str,
+            tgt_table: str
+        ):
+            pass
+    else:
+        print(f'ERROR: task_type {task_type} is unsupported') # TO DO: Set up logging 
+    
+    return task_func 
 
 
 def create_tasks(task_list):
@@ -41,11 +71,10 @@ def create_tasks(task_list):
         list: List of task metadata and objects
     """
     for t in task_list:
-        if t["task_type"] == "st_parquet":
-            t["task"] = st_parquet(**t["task_params"]).with_task_key(t["task_key"])
-        elif t["task_type"] == "st_json":
-            t["task"] = st_json(**t["task_params"]).with_task_key(t["task_key"])
-
+        warehouse_id = t.get('warehouse_id', Bundle.variables.warehouse_id) # Use value if provided, else use the default
+        task_func = generate_task_func(task_type=t["task_type"], warehouse_id=warehouse_id)
+        t["task"] = task_func(**t["task_params"]).with_task_key(t["task_key"])
+             
     return task_list
 
 
@@ -70,7 +99,7 @@ def add_deps(task_list):
     return task_list
 
 
-task_list_filtered = [t for t in task_list if t["batch"] in ('st_parquet', 'st_json')]
+task_list_filtered = [t for t in task_list if t["batch"] in ('st_parquet', 'st_json','ctas')]
 task_list_w_obj = create_tasks(task_list_filtered)
 task_list_w_deps = add_deps(task_list_w_obj)
 task_obj_list = [t["task"] for t in task_list_w_deps]

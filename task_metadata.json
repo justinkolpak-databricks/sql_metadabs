@@ -77,5 +77,18 @@
             "main_sql_metadabs_bronze_table_02"
         ],
         "batch": "ctas"
+    },
+    {
+        "task_key": "incremental_ingest_1",
+        "task_type": "copy_into",
+        "task_params": {
+            "src_format": "json",
+            "src_path": "/databricks-datasets/iot-stream/data-device/",
+            "tgt_catalog": "justin_kolpak",
+            "tgt_schema": "dbsql",
+            "tgt_table": "raw_device"
+        },
+        "depends_on": null,
+        "batch": "ctas"
     }
 ]

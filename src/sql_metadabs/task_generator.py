@@ -44,6 +44,17 @@ def generate_task_func(task_type, warehouse_id):
         ):
             pass
     
+    elif task_type == 'copy_into':
+        @sql_notebook_task(notebook_path='notebooks/copy_into.sql', warehouse_id=warehouse_id)
+        def task_func(
+            src_format: str,
+            src_path: str,
+            tgt_catalog: str,
+            tgt_schema: str,
+            tgt_table: str
+        ):
+            pass    
+
     elif task_type == 'ctas':
         @sql_notebook_task(notebook_path='notebooks/ctas.sql', warehouse_id=warehouse_id)
         def task_func(

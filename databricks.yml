@@ -22,11 +22,6 @@ artifacts:
     path: .
     build: .venv/bin/python3 setup.py bdist_wheel
 
-sync:
-  exclude:
-    # - "src"
-    - "resources"
-
 variables:
   warehouse_id:
     description: Warehouse ID for SQL tasks

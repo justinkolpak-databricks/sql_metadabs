@@ -14,5 +14,5 @@
         ".pytest_cache": true,
     },
     "databricks.python.envFile": "${workspaceFolder}/.venv",
-    "python.envFile": "${workspaceFolder}/.venv",
+    "python.envFile": "${workspaceFolder}/.databricks/.databricks.env",
 }

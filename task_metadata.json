@@ -1,0 +1,81 @@
+[
+    {
+        "task_key": "main_sql_metadabs_bronze_table_01",
+        "task_type": "st_json",
+        "task_params": {
+            "table_comment": "Bronze table ingested from json",
+            "table_properties": "'table_quality' = 'bronze'",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_01",
+            "select_list": "*, current_timestamp() as _etl_timestamp",
+            "src_path": "/Volumes/main/sql_metadabs/raw_data/table_01"
+        },
+        "depends_on": null,
+        "batch": "st_json",
+        "warehouse_id": "5ab5dda58c1ea16b"
+    },
+    {
+        "task_key": "main_sql_metadabs_bronze_table_02",
+        "task_type": "st_json",
+        "task_params": {
+            "table_comment": "Bronze table ingested from json",
+            "table_properties": "'table_quality' = 'bronze'",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_02",
+            "select_list": "*, current_timestamp() as _etl_timestamp",
+            "src_path": "/Volumes/main/sql_metadabs/raw_data/table_02"
+        },
+        "depends_on": null,
+        "batch": "st_json"
+    },
+    {
+        "task_key": "main_sql_metadabs_bronze_table_03",
+        "task_type": "st_parquet",
+        "task_params": {
+            "table_comment": "Bronze table ingested from parquet",
+            "table_properties": "'table_quality' = 'bronze'",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_03",
+            "select_list": "*, current_timestamp() as _etl_timestamp",
+            "src_path": "/Volumes/main/sql_metadabs/raw_data/table_03"
+        },
+        "depends_on": null,
+        "batch": "st_parquet"
+    },
+    {
+        "task_key": "main_sql_metadabs_bronze_table_04",
+        "task_type": "st_parquet",
+        "task_params": {
+            "table_comment": "Bronze table ingested from parquet",
+            "table_properties": "'table_quality' = 'bronze'",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "bronze_table_04",
+            "select_list": "*, current_timestamp() as _etl_timestamp",
+            "src_path": "/Volumes/main/sql_metadabs/raw_data/table_04"
+        },
+        "depends_on": null,
+        "batch": "st_parquet"
+    },
+    {
+        "task_key": "main_sql_metadabs_silver_table_01",
+        "task_type": "ctas",
+        "notebook_sql_type": "ctas",
+        "task_params": {
+            "src_catalog": "main",
+            "src_schema": "sql_metadabs",
+            "src_table": "bronze_table_01",
+            "tgt_catalog": "main",
+            "tgt_schema": "sql_metadabs",
+            "tgt_table": "silver_table_01"
+        },
+        "depends_on": [
+            "main_sql_metadabs_bronze_table_01",
+            "main_sql_metadabs_bronze_table_02"
+        ],
+        "batch": "ctas"
+    }
+]

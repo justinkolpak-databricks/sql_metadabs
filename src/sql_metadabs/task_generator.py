@@ -1,66 +1,111 @@
 from databricks.bundles.jobs import Job, notebook_task, sql_notebook_task, task
+from databricks.bundles.variables import Bundle
+import json
 
-@sql_notebook_task(notebook_path="/src/sql_metadabs/sql_notebook.sql" , warehouse_id='475b94ddc7cd5211')
-def ingestion_task(catalog_name: str, 
-                schema_name: str,
-                table_name:str,
-                file_path: str,
-                file_format: str,
-                infer_schema: bool,
-                headers_included: bool,
-                line_sep: str,
-                file_name_pattern: str,
-                schema: str,                  
-                ):
-  pass
 
-# Input (List): Table Names
-# Output (Dictionary): Key-values of table name and Task object
-def create_tasks(table_names):
-  task_dict = {}
-  for table_name in table_names:
-    task = ingestion_task(
-            catalog_name = 'justin_kolpak',
-            schema_name = 'tpch',
-            table_name = table_name,
-            file_path='/Volumes/tpcdi/tpcdi_raw_data/tpcdi_volume/sf=10/Batch1/',
-            file_format='csv',
-            infer_schema=False,
-            headers_included=False,
-            line_sep=",",
-            file_name_pattern="HR.csv",
-            schema="employeeid BIGINT COMMENT 'ID of employee', managerid BIGINT COMMENT 'ID of employee’s manager', employeefirstname STRING COMMENT 'First name', employeelastname STRING COMMENT 'Last name', employeemi STRING COMMENT 'Middle initial', employeejobcode STRING COMMENT 'Numeric job code', employeebranch STRING COMMENT 'Facility in which employee has office', employeeoffice STRING COMMENT 'Office number or description', employeephone STRING COMMENT 'Employee phone number'"
-          ).with_task_key(table_name)
+# Open json metadata and deserialize to dict
+with open("task_metadata.json") as f:
+    task_list = json.load(f)
+
+
+def generate_task_func(task_type, warehouse_id):
+    """Higher order function that creates function with notebook and warehouse decorators. Handles task_type to notebook mapping. 
+
+    Args:
+        notebook_path (str): Task Type (e.g. st_json, st_parquet, ctas)
+        warehouse_id (str): DBSQL Warehouse ID
+
+    Returns:
+        task_func (function): Function representing the sql_notebook_task
+    """
+    if task_type == 'st_json':
+        @sql_notebook_task(notebook_path='notebooks/st_json.sql', warehouse_id=warehouse_id)
+        def task_func(
+            tgt_catalog: str,
+            tgt_schema: str,
+            tgt_table: str,
+            table_comment: str,
+            table_properties: str,
+            select_list: str,
+            src_path: str
+        ):
+            pass
     
-    task_dict[table_name] = task
-
-  return task_dict
-
-# Input (dictionary): Key-values of table name and Task object
-# Output (dictionary): Key-values of table name and Task object - with dependencies added
-def add_deps(tasks):
-  for table_name in tasks:
-    if table_name == 'hr': # to be automated, just for testing purposes
-      depends_on_task_names = ['hr2','hr3']
+    elif task_type == 'st_parquet':
+        @sql_notebook_task(notebook_path='notebooks/st_parquet.sql', warehouse_id=warehouse_id)
+        def task_func(
+            tgt_catalog: str,
+            tgt_schema: str,
+            tgt_table: str,
+            table_comment: str,
+            table_properties: str,
+            select_list: str,
+            src_path: str
+        ):
+            pass
+    
+    elif task_type == 'ctas':
+        @sql_notebook_task(notebook_path='notebooks/ctas.sql', warehouse_id=warehouse_id)
+        def task_func(
+            src_catalog: str,
+            src_schema: str,
+            src_table: str,
+            tgt_catalog: str,
+            tgt_schema: str,
+            tgt_table: str
+        ):
+            pass
     else:
-      depends_on_task_names = []
-
-    depends_on_tasks = [v for k, v in tasks.items() if k in depends_on_task_names]
-      
-    for task in depends_on_tasks:
-      tasks[table_name] = tasks[table_name].add_depends_on(task)
-  
-  return tasks
+        print(f'ERROR: task_type {task_type} is unsupported') # TO DO: Set up logging 
+    
+    return task_func 
 
 
-## MAIN ##
-if __name__ == '__main__':
-  table_names = ['hr', 'hr2', 'hr3']
-  tasks = create_tasks(table_names) # Need to create all tasks first before adding dependencies
-  tasks_with_deps = add_deps(tasks)
+def create_tasks(task_list):
+    """Add task objects to task metadata list
 
-  ingestion_job = Job.create(
-    resource_name = "ingestion_job",
-    name = "Ingestion Job",
-    tasks = list(tasks_with_deps.values())
-  )
+    Args:
+        task_list (list): List of task metadata
+
+    Returns:
+        list: List of task metadata and objects
+    """
+    for t in task_list:
+        warehouse_id = t.get('warehouse_id', Bundle.variables.warehouse_id) # Use value if provided, else use the default
+        task_func = generate_task_func(task_type=t["task_type"], warehouse_id=warehouse_id)
+        t["task"] = task_func(**t["task_params"]).with_task_key(t["task_key"])
+             
+    return task_list
+
+
+def add_deps(task_list):
+    """Add dependencies to task objects
+
+    Args:
+        task_list (list): List of task metadata and objects
+
+    Returns:
+        list: List of task metadata and objects with dependencies added
+    """
+    for t in task_list:
+        if t["depends_on"]:
+            depends_on_task_names = t["depends_on"]
+            depends_on_tasks = [
+                t["task"] for t in task_list if t["task_key"] in depends_on_task_names
+            ]
+            for d in depends_on_tasks:
+                t["task"] = t["task"].add_depends_on(d)
+
+    return task_list
+
+
+task_list_filtered = [t for t in task_list if t["batch"] in ('st_parquet', 'st_json','ctas')]
+task_list_w_obj = create_tasks(task_list_filtered)
+task_list_w_deps = add_deps(task_list_w_obj)
+task_obj_list = [t["task"] for t in task_list_w_deps]
+
+job_with_autogenerated_tasks = Job.create(
+    resource_name="sql_metadabs_ingest",
+    name="sql_metadabs_ingest",
+    tasks=task_obj_list,  # type: ignore
+)
